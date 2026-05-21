@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">结构体和枚举数据形状</title>
+  <desc id="desc">结构体表示固定字段，枚举表示多种形态。</desc>
+  <rect width="960" height="620" fill="#fffdf8"/>
+  <text x="70" y="86" fill="#202124" font-family="Arial, sans-serif" font-size="38" font-weight="700">把数据形状写进类型</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="100" y="170" width="320" height="300" rx="18" fill="#eef6f3" stroke="#d7dce2"/>
+    <text x="140" y="230" fill="#246a73" font-size="28" font-weight="700">struct Lesson</text>
+    <text x="150" y="290" fill="#202124" font-size="24">title: String</text>
+    <text x="150" y="340" fill="#202124" font-size="24">minutes: u32</text>
+    <text x="150" y="390" fill="#5f6368" font-size="20">字段固定</text>
+    <rect x="540" y="170" width="320" height="300" rx="18" fill="#fff4e8" stroke="#d7dce2"/>
+    <text x="580" y="230" fill="#b84526" font-size="28" font-weight="700">enum Progress</text>
+    <text x="590" y="290" fill="#202124" font-size="24">NotStarted</text>
+    <text x="590" y="340" fill="#202124" font-size="24">Learning(Lesson)</text>
+    <text x="590" y="390" fill="#202124" font-size="24">Done</text>
+    <text x="590" y="440" fill="#5f6368" font-size="20">状态可选</text>
+  </g>
+</svg>

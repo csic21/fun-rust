@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">变量和类型像标签</title>
+  <desc id="desc">不同类型的值被放在清晰标记的架子上。</desc>
+  <rect width="960" height="620" fill="#fffdf8"/>
+  <text x="72" y="86" fill="#202124" font-family="Arial, sans-serif" font-size="38" font-weight="700">变量和类型像标签</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="96" y="160" width="768" height="330" rx="20" fill="#eef6f3" stroke="#d7dce2"/>
+    <path d="M150 260h660M150 370h660" stroke="#d7dce2" stroke-width="5"/>
+    <g font-size="24" font-weight="700">
+      <rect x="170" y="195" width="130" height="52" rx="10" fill="#fff"/><text x="203" y="230" fill="#b84526">i32</text>
+      <rect x="360" y="195" width="130" height="52" rx="10" fill="#fff"/><text x="393" y="230" fill="#246a73">bool</text>
+      <rect x="550" y="195" width="150" height="52" rx="10" fill="#fff"/><text x="584" y="230" fill="#7b5b1d">String</text>
+      <rect x="170" y="305" width="130" height="52" rx="10" fill="#fff"/><text x="205" y="340" fill="#5d4a86">char</text>
+      <rect x="360" y="305" width="130" height="52" rx="10" fill="#fff"/><text x="394" y="340" fill="#b84526">f64</text>
+      <rect x="550" y="305" width="150" height="52" rx="10" fill="#fff"/><text x="596" y="340" fill="#246a73">&str</text>
+    </g>
+    <text x="150" y="450" fill="#5f6368" font-size="22">类型不是负担，是编译器帮你守住的标签。</text>
+  </g>
+</svg>

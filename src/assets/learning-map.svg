@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">Rust 学习路线图</title>
+  <desc id="desc">四段学习路径：表达数据、组织代码、管理值、处理失败。</desc>
+  <rect width="960" height="620" fill="#fffdf8"/>
+  <rect x="56" y="64" width="848" height="492" rx="22" fill="#eef6f3" stroke="#d7dce2"/>
+  <text x="92" y="122" fill="#202124" font-family="Arial, sans-serif" font-size="40" font-weight="700">Rust 学习地图</text>
+  <text x="92" y="164" fill="#5f6368" font-family="Arial, sans-serif" font-size="22">每次只上一个台阶，把坡度变平。</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="98" y="230" width="160" height="150" rx="16" fill="#ffffff" stroke="#d7dce2"/>
+    <text x="130" y="285" fill="#b84526" font-size="24" font-weight="700">1 表达数据</text>
+    <text x="128" y="326" fill="#5f6368" font-size="18">let · mut · type</text>
+    <rect x="302" y="230" width="160" height="150" rx="16" fill="#ffffff" stroke="#d7dce2"/>
+    <text x="334" y="285" fill="#246a73" font-size="24" font-weight="700">2 组织代码</text>
+    <text x="332" y="326" fill="#5f6368" font-size="18">fn · if · match</text>
+    <rect x="506" y="230" width="160" height="150" rx="16" fill="#ffffff" stroke="#d7dce2"/>
+    <text x="538" y="285" fill="#7b5b1d" font-size="24" font-weight="700">3 管理值</text>
+    <text x="536" y="326" fill="#5f6368" font-size="18">move · borrow</text>
+    <rect x="710" y="230" width="160" height="150" rx="16" fill="#ffffff" stroke="#d7dce2"/>
+    <text x="742" y="285" fill="#5d4a86" font-size="24" font-weight="700">4 处理失败</text>
+    <text x="740" y="326" fill="#5f6368" font-size="18">Option · Result</text>
+    <path d="M258 305h44M462 305h44M666 305h44" stroke="#202124" stroke-width="3" stroke-linecap="round"/>
+    <path d="M292 295l10 10-10 10M496 295l10 10-10 10M700 295l10 10-10 10" fill="none" stroke="#202124" stroke-width="3"/>
+  </g>
+  <text x="92" y="470" fill="#202124" font-family="Arial, sans-serif" font-size="24" font-weight="700">学习节奏：看图 → 读代码 → 改一行 → 再运行</text>
+  <text x="92" y="510" fill="#5f6368" font-family="Arial, sans-serif" font-size="20">不急着背规则，先让编译器成为反馈伙伴。</text>
+</svg>

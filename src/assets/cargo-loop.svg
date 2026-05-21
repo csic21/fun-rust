@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">Cargo 反馈循环</title>
+  <desc id="desc">编辑代码、运行 cargo run、读取反馈、再编辑。</desc>
+  <rect width="960" height="620" fill="#fffdf8"/>
+  <text x="72" y="86" fill="#202124" font-family="Arial, sans-serif" font-size="38" font-weight="700">第一天只练反馈循环</text>
+  <g font-family="Arial, sans-serif" font-size="24" font-weight="700">
+    <circle cx="480" cy="320" r="170" fill="#eef6f3" stroke="#d7dce2"/>
+    <rect x="380" y="120" width="200" height="70" rx="14" fill="#fff" stroke="#d7dce2"/>
+    <text x="428" y="164" fill="#246a73">编辑代码</text>
+    <rect x="650" y="285" width="200" height="70" rx="14" fill="#fff" stroke="#d7dce2"/>
+    <text x="690" y="329" fill="#b84526">cargo run</text>
+    <rect x="380" y="450" width="200" height="70" rx="14" fill="#fff" stroke="#d7dce2"/>
+    <text x="420" y="494" fill="#7b5b1d">读取反馈</text>
+    <rect x="110" y="285" width="200" height="70" rx="14" fill="#fff" stroke="#d7dce2"/>
+    <text x="152" y="329" fill="#5d4a86">改一小步</text>
+    <path d="M565 175c75 25 125 70 158 120M710 350c-20 72-72 121-142 146M394 492c-70-24-120-72-151-139M246 292c25-68 74-111 144-133" fill="none" stroke="#202124" stroke-width="5" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">所有权移动示意</title>
+  <desc id="desc">String 值的钥匙从 book 移动到函数参数 title。</desc>
+  <rect width="960" height="620" fill="#fffdf8"/>
+  <text x="70" y="84" fill="#202124" font-family="Arial, sans-serif" font-size="38" font-weight="700">所有权像“钥匙”</text>
+  <text x="72" y="124" fill="#5f6368" font-family="Arial, sans-serif" font-size="21">钥匙交出去以后，原来的名字不能再使用这个值。</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="96" y="210" width="250" height="210" rx="18" fill="#ffffff" stroke="#d7dce2"/>
+    <text x="132" y="265" fill="#b84526" font-size="28" font-weight="700">book</text>
+    <text x="132" y="314" fill="#202124" font-size="24">String::from("Rust")</text>
+    <circle cx="242" cy="360" r="24" fill="#f6d36f"/>
+    <rect x="238" y="360" width="70" height="14" rx="7" fill="#f6d36f"/>
+    <text x="132" y="392" fill="#5f6368" font-size="18">持有钥匙</text>
+    <path d="M370 312h210" stroke="#202124" stroke-width="5" stroke-linecap="round"/>
+    <path d="M558 292l26 20-26 20" fill="none" stroke="#202124" stroke-width="5"/>
+    <text x="422" y="284" fill="#5f6368" font-size="20">传参：move</text>
+    <rect x="614" y="210" width="250" height="210" rx="18" fill="#ffffff" stroke="#d7dce2"/>
+    <text x="650" y="265" fill="#246a73" font-size="28" font-weight="700">title</text>
+    <text x="650" y="314" fill="#202124" font-size="24">函数参数</text>
+    <circle cx="760" cy="360" r="24" fill="#f6d36f"/>
+    <rect x="756" y="360" width="70" height="14" rx="7" fill="#f6d36f"/>
+    <text x="650" y="392" fill="#5f6368" font-size="18">现在由函数负责</text>
+    <text x="120" y="500" fill="#202124" font-size="24" font-weight="700">想继续用 book？</text>
+    <text x="120" y="540" fill="#5f6368" font-size="20">把参数改成 &String 借用，或者明确 clone 出第二份数据。</text>
+  </g>
+</svg>

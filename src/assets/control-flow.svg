@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">函数和分支流程</title>
+  <desc id="desc">输入分数，match 分支返回徽章文字。</desc>
+  <rect width="960" height="620" fill="#fffdf8"/>
+  <text x="70" y="86" fill="#202124" font-family="Arial, sans-serif" font-size="38" font-weight="700">函数：输入明确，输出明确</text>
+  <g font-family="Arial, sans-serif" font-size="22">
+    <rect x="95" y="230" width="170" height="90" rx="14" fill="#fff" stroke="#d7dce2"/>
+    <text x="140" y="284" fill="#202124">score</text>
+    <path d="M275 275h110" stroke="#202124" stroke-width="4"/><path d="M370 260l18 15-18 15" fill="none" stroke="#202124" stroke-width="4"/>
+    <rect x="405" y="190" width="180" height="170" rx="14" fill="#eef6f3" stroke="#d7dce2"/>
+    <text x="455" y="250" fill="#246a73" font-weight="700">match</text>
+    <text x="432" y="294" fill="#5f6368">列出可能性</text>
+    <path d="M596 275h100" stroke="#202124" stroke-width="4"/><path d="M680 260l18 15-18 15" fill="none" stroke="#202124" stroke-width="4"/>
+    <rect x="720" y="230" width="170" height="90" rx="14" fill="#fff" stroke="#d7dce2"/>
+    <text x="765" y="284" fill="#b84526">badge</text>
+    <text x="225" y="455" fill="#5f6368">最后一个表达式没有分号，就可以成为返回值。</text>
+  </g>
+</svg>

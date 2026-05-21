@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" role="img" aria-labelledby="title desc">
+  <title id="title">Rust 轻松入门 logo</title>
+  <desc id="desc">A compact R mark with braces and a learning feedback loop.</desc>
+  <rect width="40" height="40" rx="9" fill="#102826"/>
+  <path d="M27.2 10.6a11.9 11.9 0 0 1 2.2 15.1" fill="none" stroke="#f97316" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M30.4 25.2l-4.8.6 2.5 4" fill="none" stroke="#f97316" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12.4 12.7c-2.2 0-3.3 1.1-3.3 3.2v2.2c0 1.2-.5 1.9-1.5 1.9 1 0 1.5.7 1.5 1.9v2.2c0 2.1 1.1 3.2 3.3 3.2" fill="none" stroke="#8dded6" stroke-width="2.3" stroke-linecap="round"/>
+  <path d="M28.1 12.7c2.2 0 3.3 1.1 3.3 3.2v2.2c0 1.2.5 1.9 1.5 1.9-1 0-1.5.7-1.5 1.9v2.2c0 2.1-1.1 3.2-3.3 3.2" fill="none" stroke="#8dded6" stroke-width="2.3" stroke-linecap="round"/>
+  <path d="M15.3 28V12h7.2c3.2 0 5.2 1.8 5.2 4.6 0 2.1-1.1 3.6-3 4.2l3.6 7.2h-4.5l-3.1-6.5h-1.5V28h-3.9Zm3.9-9.5h2.6c1.2 0 1.9-.6 1.9-1.7 0-1.1-.7-1.7-1.9-1.7h-2.6v3.4Z" fill="#fffdfa"/>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" role="img" aria-labelledby="title desc">
+  <title id="title">小项目学习循环</title>
+  <desc id="desc">用集合、迭代器、错误处理和所有权完成一个小项目。</desc>
+  <rect width="960" height="620" fill="#fffdf8"/>
+  <text x="72" y="86" fill="#202124" font-family="Arial, sans-serif" font-size="38" font-weight="700">用小项目收束概念</text>
+  <g font-family="Arial, sans-serif" font-size="23">
+    <rect x="110" y="180" width="230" height="120" rx="16" fill="#eef6f3" stroke="#d7dce2"/>
+    <text x="152" y="230" fill="#246a73" font-weight="700">输入数据</text>
+    <text x="152" y="265" fill="#5f6368">Vec / String</text>
+    <rect x="365" y="180" width="230" height="120" rx="16" fill="#fff" stroke="#d7dce2"/>
+    <text x="405" y="230" fill="#b84526" font-weight="700">处理步骤</text>
+    <text x="405" y="265" fill="#5f6368">iter / filter</text>
+    <rect x="620" y="180" width="230" height="120" rx="16" fill="#fff4e8" stroke="#d7dce2"/>
+    <text x="662" y="230" fill="#7b5b1d" font-weight="700">输出结果</text>
+    <text x="662" y="265" fill="#5f6368">println / Result</text>
+    <path d="M340 240h25M595 240h25" stroke="#202124" stroke-width="4"/>
+    <rect x="238" y="390" width="484" height="84" rx="16" fill="#ffffff" stroke="#d7dce2"/>
+    <text x="306" y="443" fill="#202124" font-weight="700">项目越小，反馈越快，学得越稳。</text>
+  </g>
+</svg>
