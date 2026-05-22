@@ -18,6 +18,7 @@
 | --- | --- | --- |
 | [SWC：从小入口走进编译器](/open-source/swc) | `crates/swc-ast-explorer/src/main.rs` | parser、AST、`SourceMap`、错误恢复、visitor、codegen 接口 |
 | [mdBook：从 CLI 看文档构建器](/open-source/mdbook) | `src/main.rs` 和 `src/cmd/build.rs` | CLI 分发、配置读取、递归数据结构、预处理器、renderer trait |
+| [rust-analyzer：从补全请求看 IDE 编译器](/open-source/rust-analyzer) | `crates/rust-analyzer/src/main_loop.rs` 和 `crates/ide-completion/src/lib.rs` | LSP、增量数据库、syntax/HIR、补全、Cargo 项目模型、测试 fixture |
 
 ## 栏目路线
 
@@ -25,7 +26,8 @@
 
 1. 先读 mdBook。它是命令行工具，输入 Markdown 和 TOML，输出静态网页，业务模型更贴近日常工具。
 2. 再读 SWC。它是编译器项目，文件更多、概念更硬，但从 `swc-ast-explorer` 进入可以把坡度降下来。
-3. 之后再加入更多项目时，优先选“有清晰小入口”的项目，而不是只看名气。
+3. 再读 rust-analyzer。它比 SWC 更贴近日常开发体验，但架构更分层：LSP 只是外壳，IDE API、HIR、syntax、salsa 和 Cargo loading 要放到同一张图里。
+4. 之后再加入更多项目时，优先选“有清晰小入口”的项目，而不是只看名气。
 
 ## 读码模板
 

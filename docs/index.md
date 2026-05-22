@@ -65,7 +65,7 @@ features:
 
 ### 第六阶段：开源读码
 
-20. [开源读码栏目](/open-source/)：基于本仓库忽略目录中的真实源码 checkout 精读项目；当前包含 [SWC](/open-source/swc) 和 [mdBook](/open-source/mdbook)，以后可以继续扩展更多项目。
+20. [开源读码栏目](/open-source/)：基于本仓库忽略目录中的真实源码 checkout 精读项目；当前包含 [SWC](/open-source/swc)、[mdBook](/open-source/mdbook) 和 [rust-analyzer](/open-source/rust-analyzer)，以后可以继续扩展更多项目。
 
 ## 贯穿项目：课程清单工具
 

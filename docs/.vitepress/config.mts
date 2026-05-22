@@ -78,6 +78,7 @@ export default defineConfig({
           { text: "栏目导读", link: "/open-source/" },
           { text: "从 SWC AST Explorer 看编译器", link: "/open-source/swc" },
           { text: "从 mdBook 看 Rust CLI", link: "/open-source/mdbook" },
+          { text: "从 rust-analyzer 补全看 IDE 编译器", link: "/open-source/rust-analyzer" },
           { text: "资料来源", link: "/sources" },
           { text: "许可说明", link: "/license" },
         ],

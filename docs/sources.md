@@ -24,6 +24,9 @@
 | [SWC architecture notes](https://github.com/swc-project/swc/blob/main/ARCHITECTURE.md) | 用来核对 SWC 内部结构：`swc_common`、`swc_ecma_ast`、`swc_ecma_parser`、`swc_ecma_codegen`、transform、测试策略等。 |
 | [mdBook source code](https://github.com/rust-lang/mdBook) | “开源读码”栏目使用的真实 Rust 项目源码；本仓库本地 checkout 位于被 `.gitignore` 忽略的 `third_party/mdbook/`，当前读码基于提交 `0ea415897758ea9b2904ed47ba9cb4901f9eb089`。 |
 | [mdBook User Guide](https://rust-lang.github.io/mdBook/) | 用来核对 mdBook 用户侧行为：初始化、构建、目录格式、配置、预处理器和后端扩展。 |
+| [rust-analyzer source code](https://github.com/rust-lang/rust-analyzer) | “开源读码”栏目使用的真实 Rust IDE 项目源码；本仓库本地 checkout 位于被 `.gitignore` 忽略的 `third_party/rust-analyzer/`，当前读码基于提交 `56dc60dd17ff8f527fdd1732a179e47c4eb244f5`。 |
+| [rust-analyzer manual](https://rust-analyzer.github.io/book/) | 用来核对 rust-analyzer 的安装、配置、功能、诊断、隐私安全和贡献文档。 |
+| [rust-analyzer architecture notes](https://rust-analyzer.github.io/book/contributing/architecture.html) | 用来核对 rust-analyzer 的 LSP server、`Analysis` API、syntax/HIR、salsa 增量数据库、宏系统、测试和可观测性设计。 |
 
 ## 本站如何使用这些资料
 

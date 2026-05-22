@@ -251,6 +251,7 @@ test("open-source reading column is a multi-project source-reading feature", () 
   const index = read("docs/open-source/index.md");
   const swc = read("docs/open-source/swc.md");
   const mdbook = read("docs/open-source/mdbook.md");
+  const rustAnalyzer = read("docs/open-source/rust-analyzer.md");
   const sources = read("docs/sources.md");
   const readme = read("README.md");
   const gitignore = read(".gitignore");
@@ -259,13 +260,16 @@ test("open-source reading column is a multi-project source-reading feature", () 
   assert.match(config, /\/open-source\//);
   assert.match(config, /\/open-source\/swc/);
   assert.match(config, /\/open-source\/mdbook/);
+  assert.match(config, /\/open-source\/rust-analyzer/);
   assert.match(home, /开源读码/);
   assert.match(home, /\/open-source\//);
   assert.match(home, /\/open-source\/swc/);
   assert.match(home, /\/open-source\/mdbook/);
+  assert.match(home, /\/open-source\/rust-analyzer/);
   assert.match(index, /长期更新/);
   assert.match(index, /SWC/);
   assert.match(index, /mdBook/);
+  assert.match(index, /rust-analyzer/);
   assert.match(index, /读码模板/);
 
   assert.match(swc, /3b1a217abbfc7d94c856dcfa0e7e57a8edc3812d/);
@@ -311,13 +315,50 @@ test("open-source reading column is a multi-project source-reading feature", () 
   assert.match(mdbook, /过关标准/);
   assert.ok(mdbook.split("\n").length > 400);
 
+  assert.match(rustAnalyzer, /56dc60dd17ff8f527fdd1732a179e47c4eb244f5/);
+  assert.match(rustAnalyzer, /third_party\/rust-analyzer/);
+  assert.match(rustAnalyzer, /MIT OR Apache-2\.0/);
+  assert.match(rustAnalyzer, /textDocument\/completion/);
+  assert.match(rustAnalyzer, /GlobalState/);
+  assert.match(rustAnalyzer, /AnalysisHost/);
+  assert.match(rustAnalyzer, /Analysis::completions/);
+  assert.match(rustAnalyzer, /CompletionContext::new/);
+  assert.match(rustAnalyzer, /complete_dot/);
+  assert.match(rustAnalyzer, /FileChange/);
+  assert.match(rustAnalyzer, /RootDatabase/);
+  assert.match(rustAnalyzer, /SourceFile::parse/);
+  assert.match(rustAnalyzer, /ItemTree/);
+  assert.match(rustAnalyzer, /DefMap/);
+  assert.match(rustAnalyzer, /Semantics/);
+  assert.match(rustAnalyzer, /salsa/);
+  assert.match(rustAnalyzer, /proc-macro-srv/);
+  assert.match(rustAnalyzer, /读码检查表/);
+  assert.match(rustAnalyzer, /过关标准/);
+  assert.match(rustAnalyzer, /暂时不要读哪里/);
+  assert.ok(rustAnalyzer.split("\n").length > 600);
+  for (const image of [
+    "rust-analyzer-reading-route.png",
+    "rust-analyzer-crate-map.png",
+    "rust-analyzer-lsp-loop.png",
+    "rust-analyzer-incremental-db.png",
+    "rust-analyzer-completion-flow.png",
+    "rust-analyzer-testing-loop.png",
+  ]) {
+    assert.match(rustAnalyzer, new RegExp(`/images/${image}`));
+    assert.ok(existsSync(`docs/public/images/${image}`), `${image} should exist`);
+  }
+
   assert.match(sources, /SWC source code/);
   assert.match(sources, /3b1a217abbfc7d94c856dcfa0e7e57a8edc3812d/);
   assert.match(sources, /mdBook source code/);
   assert.match(sources, /0ea415897758ea9b2904ed47ba9cb4901f9eb089/);
+  assert.match(sources, /rust-analyzer source code/);
+  assert.match(sources, /56dc60dd17ff8f527fdd1732a179e47c4eb244f5/);
   assert.match(readme, /docs\/open-source\/\*\.md/);
   assert.match(readme, /third_party\/swc/);
   assert.match(readme, /third_party\/mdbook/);
+  assert.match(readme, /third_party\/rust-analyzer/);
+  assert.match(readme, /docs\/public\/images\/\*\.png/);
 });
 
 test("advanced topics include when-not-to-use guidance", () => {

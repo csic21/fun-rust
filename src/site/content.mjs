@@ -83,6 +83,24 @@ export const sources = [
     url: "https://rust-lang.github.io/mdBook/",
     note: "核对 mdBook 初始化、构建、配置、SUMMARY.md、预处理器和后端扩展等用户侧行为。",
   },
+  {
+    title: "rust-analyzer source code",
+    label: "开源读码项目",
+    url: "https://github.com/rust-lang/rust-analyzer",
+    note: "用于真实 Rust IDE 项目读码栏目，当前本地 checkout 位于 third_party/rust-analyzer/，并被 .gitignore 忽略。",
+  },
+  {
+    title: "rust-analyzer manual",
+    label: "rust-analyzer 官方手册",
+    url: "https://rust-analyzer.github.io/book/",
+    note: "核对 rust-analyzer 安装、配置、编辑器功能、诊断、隐私安全和贡献文档。",
+  },
+  {
+    title: "rust-analyzer architecture notes",
+    label: "rust-analyzer 架构说明",
+    url: "https://rust-analyzer.github.io/book/contributing/architecture.html",
+    note: "核对 LSP server、Analysis API、syntax/HIR、salsa 增量数据库、宏系统、测试和可观测性设计。",
+  },
 ];
 
 export const lessons = [
