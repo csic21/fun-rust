@@ -2,6 +2,7 @@ node_modules/
 .pnpm-store/
 dist/
 tmp/
+third_party/
 .superpowers/
 docs/.vitepress/cache/
 docs/superpowers/

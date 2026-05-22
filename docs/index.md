@@ -63,6 +63,10 @@ features:
 18. [命令行项目实战](/lessons/cli-practice)：从参数解析、文件读取、错误设计到测试一个小 CLI。
 19. [综合项目路线](/lessons/advanced-projects)：把前面知识变成三条可扩展项目路线。
 
+### 第六阶段：开源读码
+
+20. [开源读码栏目](/open-source/)：基于本仓库忽略目录中的真实源码 checkout 精读项目；当前包含 [SWC](/open-source/swc) 和 [mdBook](/open-source/mdbook)，以后可以继续扩展更多项目。
+
 ## 贯穿项目：课程清单工具
 
 ![课程清单工具贯穿项目 checkpoint 路线图](/images/lesson-cli-checkpoints.png)

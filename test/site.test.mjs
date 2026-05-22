@@ -245,6 +245,69 @@ test("site exposes a through-line project and modern Rust engineering guidance",
   assert.match(sources, /Cargo Reference/);
 });
 
+test("open-source reading column is a multi-project source-reading feature", () => {
+  const config = read("docs/.vitepress/config.mts");
+  const home = read("docs/index.md");
+  const index = read("docs/open-source/index.md");
+  const swc = read("docs/open-source/swc.md");
+  const mdbook = read("docs/open-source/mdbook.md");
+  const sources = read("docs/sources.md");
+  const readme = read("README.md");
+  const gitignore = read(".gitignore");
+
+  assert.match(gitignore, /^third_party\/$/m);
+  assert.match(config, /\/open-source\//);
+  assert.match(config, /\/open-source\/swc/);
+  assert.match(config, /\/open-source\/mdbook/);
+  assert.match(home, /开源读码/);
+  assert.match(home, /\/open-source\//);
+  assert.match(home, /\/open-source\/swc/);
+  assert.match(home, /\/open-source\/mdbook/);
+  assert.match(index, /长期更新/);
+  assert.match(index, /SWC/);
+  assert.match(index, /mdBook/);
+  assert.match(index, /读码模板/);
+
+  assert.match(swc, /3b1a217abbfc7d94c856dcfa0e7e57a8edc3812d/);
+  assert.match(swc, /third_party\/swc/);
+  assert.match(swc, /Apache-2\.0/);
+  assert.match(swc, /swc-ast-explorer/);
+  assert.match(swc, /SourceMap/);
+  assert.match(swc, /parse_file_as_program/);
+  assert.match(swc, /Lexer::new/);
+  assert.match(swc, /Parser::new_from/);
+  assert.match(swc, /Program::Module/);
+  assert.match(swc, /swc_ecma_codegen::Emitter/);
+  assert.match(swc, /精读样本/);
+  assert.match(swc, /`SourceMap` 精读/);
+  assert.match(swc, /Lexer 和 Parser 的边界/);
+  assert.match(swc, /读码检查表/);
+  assert.ok(swc.split("\n").length > 550);
+  assert.match(swc, /\/images\/swc-reading-route\.png/);
+  assert.ok(existsSync("docs/public/images/swc-reading-route.png"));
+  assert.match(swc, /过关标准/);
+
+  assert.match(mdbook, /0ea415897758ea9b2904ed47ba9cb4901f9eb089/);
+  assert.match(mdbook, /third_party\/mdbook/);
+  assert.match(mdbook, /MPL-2\.0/);
+  assert.match(mdbook, /cmd::build::execute/);
+  assert.match(mdbook, /MDBook::load/);
+  assert.match(mdbook, /load_book/);
+  assert.match(mdbook, /BookItem/);
+  assert.match(mdbook, /Renderer::render/);
+  assert.match(mdbook, /determine_preprocessors/);
+  assert.match(mdbook, /过关标准/);
+  assert.ok(mdbook.split("\n").length > 400);
+
+  assert.match(sources, /SWC source code/);
+  assert.match(sources, /3b1a217abbfc7d94c856dcfa0e7e57a8edc3812d/);
+  assert.match(sources, /mdBook source code/);
+  assert.match(sources, /0ea415897758ea9b2904ed47ba9cb4901f9eb089/);
+  assert.match(readme, /docs\/open-source\/\*\.md/);
+  assert.match(readme, /third_party\/swc/);
+  assert.match(readme, /third_party\/mdbook/);
+});
+
 test("advanced topics include when-not-to-use guidance", () => {
   for (const file of [
     "smart-pointers.md",

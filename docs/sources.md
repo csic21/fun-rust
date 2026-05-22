@@ -20,6 +20,10 @@
 | [rustdoc Book](https://doc.rust-lang.org/rustdoc/) | 写 API 文档、运行文档测试、配置文档生成和发布库文档。 |
 | [Clippy](https://doc.rust-lang.org/clippy/) | 学习常见 lint、代码风格建议和工程质量检查。 |
 | [Rustlings](https://rustlings.rust-lang.org/) | 把阅读变成练习，适合每学完一章做几个小题。 |
+| [SWC source code](https://github.com/swc-project/swc) | “开源读码”栏目使用的真实 Rust 项目源码；本仓库本地 checkout 位于被 `.gitignore` 忽略的 `third_party/swc/`，当前读码基于提交 `3b1a217abbfc7d94c856dcfa0e7e57a8edc3812d`。 |
+| [SWC architecture notes](https://github.com/swc-project/swc/blob/main/ARCHITECTURE.md) | 用来核对 SWC 内部结构：`swc_common`、`swc_ecma_ast`、`swc_ecma_parser`、`swc_ecma_codegen`、transform、测试策略等。 |
+| [mdBook source code](https://github.com/rust-lang/mdBook) | “开源读码”栏目使用的真实 Rust 项目源码；本仓库本地 checkout 位于被 `.gitignore` 忽略的 `third_party/mdbook/`，当前读码基于提交 `0ea415897758ea9b2904ed47ba9cb4901f9eb089`。 |
+| [mdBook User Guide](https://rust-lang.github.io/mdBook/) | 用来核对 mdBook 用户侧行为：初始化、构建、目录格式、配置、预处理器和后端扩展。 |
 
 ## 本站如何使用这些资料
 
@@ -27,3 +31,4 @@
 - 中级章节以 Rust Book、标准库、Cargo Book、Cargo Reference、Edition Guide 和 rustdoc Book 为主，目标是补齐工程结构、抽象边界和测试习惯。
 - 高级章节会参考 Rust Reference、Async Book 和 Rustonomicon，但只把安全使用边界讲清楚，不鼓励新手过早写 unsafe。
 - 实战章节会把官方概念组合成小项目，帮助你从“看懂片段”过渡到“能组织一个程序”。
+- 开源读码栏目会引用具体上游提交和本地忽略目录中的源码，以当前源码为准，不凭记忆解释项目结构。

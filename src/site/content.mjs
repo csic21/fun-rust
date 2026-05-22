@@ -59,6 +59,30 @@ export const sources = [
     url: "https://rustlings.rust-lang.org/",
     note: "配合 Rust Book 阅读的小练习，适合把概念变成肌肉记忆。",
   },
+  {
+    title: "SWC source code",
+    label: "开源读码项目",
+    url: "https://github.com/swc-project/swc",
+    note: "用于真实 Rust 项目读码栏目，当前本地 checkout 位于 third_party/swc/，并被 .gitignore 忽略。",
+  },
+  {
+    title: "SWC architecture notes",
+    label: "SWC 架构说明",
+    url: "https://github.com/swc-project/swc/blob/main/ARCHITECTURE.md",
+    note: "核对 SWC 的 crate 分层、parser、AST、codegen、transform 和测试策略。",
+  },
+  {
+    title: "mdBook source code",
+    label: "开源读码项目",
+    url: "https://github.com/rust-lang/mdBook",
+    note: "用于真实 Rust CLI 项目读码栏目，当前本地 checkout 位于 third_party/mdbook/，并被 .gitignore 忽略。",
+  },
+  {
+    title: "mdBook User Guide",
+    label: "mdBook 官方指南",
+    url: "https://rust-lang.github.io/mdBook/",
+    note: "核对 mdBook 初始化、构建、配置、SUMMARY.md、预处理器和后端扩展等用户侧行为。",
+  },
 ];
 
 export const lessons = [

@@ -17,12 +17,13 @@ pnpm dev
 - `docs/.vitepress/config.mts`：VitePress 配置、导航和侧边栏
 - `docs/.vitepress/theme/custom.css`：文档站视觉样式
 - `docs/lessons/*.md`：循序渐进的 Rust 课程，覆盖入门基础、核心机制、中级进阶、高级主题和实践教程
+- `docs/open-source/*.md`：开源读码栏目，从被 `.gitignore` 忽略的真实 Rust 项目源码 checkout 中取证讲解
 - `docs/public/images/*.png`：使用 imagegen 生成的课程插图
 - `test/site.test.mjs`：站点结构、内容深度和资源引用校验
 
 ## 内容依据
 
-主线参考官方 Rust Book，示例参考 Rust By Example，API 和标准类型参考 Rust Standard Library，项目与工具链参考 The Cargo Book 和 Rustlings；中高级主题补充参考 Rust Reference、Async Book、Rustonomicon、rustdoc Book 和 Clippy 文档。
+主线参考官方 Rust Book，示例参考 Rust By Example，API 和标准类型参考 Rust Standard Library，项目与工具链参考 The Cargo Book 和 Rustlings；中高级主题补充参考 Rust Reference、Async Book、Rustonomicon、rustdoc Book 和 Clippy 文档。开源读码栏目会引用具体上游项目提交，例如当前 SWC 读码基于 `third_party/swc/`，mdBook 读码基于 `third_party/mdbook/`，这些目录都在被忽略的 `third_party/` 下。
 
 ## 版权和商标说明
 

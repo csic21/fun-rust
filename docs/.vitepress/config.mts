@@ -23,6 +23,7 @@ export default defineConfig({
       { text: "进阶", link: "/lessons/modules-crates" },
       { text: "高级", link: "/lessons/smart-pointers" },
       { text: "实战", link: "/lessons/cli-practice" },
+      { text: "开源读码", link: "/open-source/" },
       { text: "资料来源", link: "/sources" },
       { text: "许可", link: "/license" },
     ],
@@ -69,6 +70,14 @@ export default defineConfig({
         items: [
           { text: "命令行项目实战", link: "/lessons/cli-practice" },
           { text: "综合项目路线", link: "/lessons/advanced-projects" },
+        ],
+      },
+      {
+        text: "第六阶段：开源读码",
+        items: [
+          { text: "栏目导读", link: "/open-source/" },
+          { text: "从 SWC AST Explorer 看编译器", link: "/open-source/swc" },
+          { text: "从 mdBook 看 Rust CLI", link: "/open-source/mdbook" },
           { text: "资料来源", link: "/sources" },
           { text: "许可说明", link: "/license" },
         ],
