@@ -281,10 +281,22 @@ test("open-source reading column is a multi-project source-reading feature", () 
   assert.match(swc, /精读样本/);
   assert.match(swc, /`SourceMap` 精读/);
   assert.match(swc, /Lexer 和 Parser 的边界/);
+  assert.match(swc, /双工作区 monorepo/);
+  assert.match(swc, /swc::Compiler/);
+  assert.match(swc, /resolver/);
+  assert.match(swc, /hygiene/);
+  assert.match(swc, /fixer/);
+  assert.match(swc, /bindings\/binding_core_node/);
   assert.match(swc, /读码检查表/);
-  assert.ok(swc.split("\n").length > 550);
+  assert.ok(swc.split("\n").length > 750);
   assert.match(swc, /\/images\/swc-reading-route\.png/);
+  assert.match(swc, /\/images\/swc-project-layers\.png/);
+  assert.match(swc, /\/images\/swc-ast-explorer-pipeline\.png/);
+  assert.match(swc, /\/images\/swc-reading-expansion\.png/);
   assert.ok(existsSync("docs/public/images/swc-reading-route.png"));
+  assert.ok(existsSync("docs/public/images/swc-project-layers.png"));
+  assert.ok(existsSync("docs/public/images/swc-ast-explorer-pipeline.png"));
+  assert.ok(existsSync("docs/public/images/swc-reading-expansion.png"));
   assert.match(swc, /过关标准/);
 
   assert.match(mdbook, /0ea415897758ea9b2904ed47ba9cb4901f9eb089/);

@@ -17,13 +17,28 @@ SWC 是一个用 Rust 写的 TypeScript / JavaScript 编译器。它很快，也
 今天只追一条会跑通的小路：`stdin` 输入源码，`SourceMap` 保存源码和位置，parser 产出 `Program` AST，格式化器把 AST 打印出来。transform 和 codegen 先只看接口，不钻优化细节。
 :::
 
+## 先把我们的要点钉住
+
+这篇文档不是把 SWC 每个目录都扫一遍。我们的目标是把“怎么读一个真实 Rust 大项目”讲清楚，尤其是下面几个要点：
+
+- **入口要小**：先从 `swc-ast-explorer` 这种能跑通、输入输出清楚的小工具进入，而不是直接钻 `Compiler`、minifier 或 Node binding。
+- **边界要硬**：`SourceMap` 管源码位置，lexer 管字符到 token，parser 管 token 到 AST，format 只负责展示，codegen 才负责生成 JS。
+- **项目要成图**：SWC 不是一个单 crate 项目，而是 Cargo workspace、Node packages、N-API/Wasm bindings、代码生成工具和测试夹具共同组成的 monorepo。
+- **读码要可验证**：每个函数名、类型名和路径都能在 `third_party/swc/` 里用 `rg` 找到；不要用“编译器大概都这样”来替代源码证据。
+- **扩展要有顺序**：看懂 AST Explorer 后，再读 `swc_ecma_codegen`、`swc_ecma_visit`、`swc::Compiler` 和 bindings；越靠近产品入口，配置和边界越复杂。
+
+![SWC 全仓库分层图](/images/swc-project-layers.png)
+
+这张图先帮你建立全局坐标：底层是大量 Rust crate，中间是编译器管线，上层是把能力接到开发者工作流里的 bindings、packages 和工具。后面的精读会刻意走一条很窄的路，但你需要知道旁边还有哪些街区，免得把一个小工具误认为整个项目。
+
 ## 本课目标
 
-读完这一页，你应该能做到四件事：
+读完这一页，你应该能做到五件事：
 
 - 说清 `swc-ast-explorer` 从 `main()` 到 `parse_file_as_program()` 的调用链。
 - 分清 `SourceMap`、`SourceFile`、`Lexer`、`Parser`、`Program` 各自负责什么。
 - 从真实源码里认出 `Result`、`Arc/Lrc`、trait、enum、feature、workspace、宏生成代码和错误恢复这些 Rust 工程写法。
+- 能把 SWC 的 Rust crate、Node/Wasm binding、npm package、生成工具和测试体系放进同一张项目地图。
 - 知道下一步应该读 codegen 或 visitor，而不是一头扎进 minifier 的复杂优化规则。
 
 ## 读码地图
@@ -47,6 +62,55 @@ crates/swc-ast-explorer/src/main.rs
 ```
 
 这不是 SWC 的完整编译链。它是第一条安全路线：先看“源码如何变成 AST”。等这条路看懂，再去看 `swc_ecma_codegen::Emitter` 如何把 AST 打回 JS，或者看 `swc_ecma_visit` 如何遍历和修改 AST。
+
+## 全项目地图：SWC 是双工作区 monorepo
+
+打开 `third_party/swc/`，第一眼会看到两个工作区同时存在：
+
+- Rust 侧由根目录 `Cargo.toml` 管理，`members` 覆盖 `xtask`、`bindings/*`、`crates/*`、`tools/generate-code` 和 `tools/swc-releaser`。
+- JavaScript 侧由根目录 `package.json` 管理，`workspaces` 覆盖 `packages/*`、`packages/core/scripts/npm/*`、`packages/minifier/scripts/npm/*`、`packages/html/scripts/npm/*`、`packages/react-compiler/scripts/npm/*`、`bindings/*` 和 `bindings/binding_core_wasm/*`。
+
+这意味着 SWC 同时面向两类用户：Rust 用户会直接依赖 `swc_ecma_parser`、`swc_ecma_visit`、`swc`、`swc_core` 等 crate；JavaScript 用户更多通过 `@swc/core`、`@swc/wasm`、minifier/html/react-compiler 相关 package 调用同一套底层能力。
+
+可以先按功能把目录分成五组：
+
+| 组 | 代表路径 | 先记住的职责 |
+| --- | --- | --- |
+| 编译器基础 | `crates/swc_common`、`crates/swc_atoms`、`crates/swc_sourcemap` | 位置、诊断、字符串、source map、通用工具。 |
+| JavaScript / TypeScript 主线 | `crates/swc_ecma_ast`、`crates/swc_ecma_parser`、`crates/swc_ecma_visit`、`crates/swc_ecma_codegen` | AST、parser、visitor、codegen，是本页重点。 |
+| 变换和优化 | `crates/swc_ecma_transforms_*`、`crates/swc_ecma_minifier`、`crates/swc_ecma_preset_env` | 兼容性降级、模块转换、React/TS pass、压缩和目标环境处理。 |
+| 产品入口 | `crates/swc`、`crates/swc_core`、`bindings/*`、`packages/*` | 把底层 crate 包成用户能调用的 Rust API、Node 原生模块、Wasm 和 npm 包。 |
+| 工程工具 | `tools/generate-code`、`tools/swc-releaser`、`xtask`、`testing` | 生成 visitor/codegen 样板、发布、仓库任务和测试辅助。 |
+
+这里有一个读码提醒：文件夹名字越像“产品”，越可能牵涉配置、兼容、发布和平台差异；文件夹名字越像“数据结构”或“接口”，越适合新手建立心智模型。所以本文从 `swc-ast-explorer` 和 `swc_ecma_parser` 进，而不是从 `packages/core` 或 `binding_core_node` 进。
+
+## 全局主线：从字符到用户可用的包
+
+把 SWC 想成一个分层系统，会比把它想成“一个很快的 parser”更准确：
+
+```text
+用户入口
+  -> CLI / @swc/core / Wasm / Rust API
+  -> swc::Compiler 或更底层 parser/codegen crate
+  -> SourceMap + Lexer + Parser
+  -> swc_ecma_ast::Program
+  -> visitor / transform / minifier / bundler
+  -> codegen + sourcemap
+  -> JS code / npm package output / Node binding result
+```
+
+本页只精读中间最短的一段：
+
+```text
+stdin
+  -> SourceMap
+  -> Lexer
+  -> Parser
+  -> Program
+  -> Debug AST
+```
+
+这不是偷懒，而是读大项目的基本策略：先把一条路径跑通，再把旁支补上。等你能解释 `Program` 是怎么来的，再去读 transform pass 才不会把“树的形状”和“树的改写”搅在一起。
 
 ## 第 0 站：Cargo.toml 是项目地图
 
@@ -273,6 +337,8 @@ const answer: number = 40 + 2;
 
 对 AST Explorer 来说，这段文本会经历这些阶段：
 
+![SWC AST Explorer 真实解析流水线](/images/swc-ast-explorer-pipeline.png)
+
 ```text
 String
   -> SourceFile
@@ -288,6 +354,8 @@ export const answer: number = 40 + 2;
 ```
 
 那顶层出现模块声明，结果会变成 `Program::Module`。这就是为什么本工具用 `parse_file_as_program()`，而不是强行用 `parse_file_as_script()` 或 `parse_file_as_module()`。
+
+这张图也解释了一个很容易混淆的点：错误报告不是“最后才发生”的附属品。parser 在构造 `Program` 的同时会收集错误，AST Explorer 再决定要不要输出 AST。也就是说，诊断是解析流程的一部分，只是它的展示由 `Handler` 和 `swc_error_reporters` 接管。
 
 ## 逐行看 `main()`：每一行都在缩小问题
 
@@ -493,6 +561,21 @@ SWC AST 里有很多宏，例如 `#[ast_node]`。visitor 文件 `crates/swc_ecma
 
 这也是为什么 SWC 文章从 `swc-ast-explorer` 开始，而不是从 visitor 生成代码开始。生成代码规模大，但不代表它是最好的入口。
 
+## 从小入口扩展：四条路线，不要一起读
+
+![SWC 读码扩展路线图](/images/swc-reading-expansion.png)
+
+看懂 AST Explorer 以后，下一步不是“把整个 SWC 读完”，而是按目标选择路线：
+
+| 路线 | 先看哪里 | 你会学到什么 | 先别碰什么 |
+| --- | --- | --- | --- |
+| parser 路线 | `crates/swc_ecma_parser/src/lib.rs`、`parser/mod.rs`、`parser/stmt.rs` | 语法配置、上下文、错误恢复、`Program::Module` / `Program::Script` 判断。 | 不要一开始读所有表达式和 TypeScript 分支。 |
+| visitor / transform 路线 | `crates/swc_ecma_visit/src/lib.rs`、`crates/swc_ecma_transforms_base/src/*` | AST 如何被遍历、如何被改写、pass 如何组合。 | 不要第一天读完整 generated visitor。 |
+| codegen / compiler 路线 | `crates/swc_ecma_codegen/src/lib.rs`、`crates/swc/src/lib.rs` | AST 如何打印成 JS，`Compiler` 如何串起 parse、transform、print。 | 不要直接钻 `.swcrc` 所有配置项。 |
+| bindings / tests 路线 | `bindings/binding_core_node`、`bindings/binding_core_wasm`、`packages/core`、`CONTRIBUTING.md` | Rust 能力如何暴露给 Node/Wasm，测试和发布如何保护用户入口。 | 不要把 N-API、Wasm、npm 发布和 parser 主线混在一起。 |
+
+这四条路线都重要，但它们回答的问题不同。parser 关心“语法是什么”，visitor 关心“树怎么走”，transform 关心“树怎么改”，codegen 关心“树怎么写回文本”，bindings 关心“用户怎么调用”。读码时只要当前问题变了，入口也应该跟着换。
+
 ## 从 AST Explorer 过渡到真正编译
 
 AST Explorer 只停在“树长什么样”。SWC 真正编译还要继续往后走。可以用 `crates/swc/examples/transform.rs` 作为第二条路线：
@@ -532,6 +615,96 @@ c.process_js_file(fm, handler, &Default::default())
 
 所以 `Compiler` 更像“总控制台”，不是新手第一站。读大型项目时，要区分“用户常用 API”和“适合学习的入口”。常用 API 往往为了覆盖场景而很复杂；学习入口最好选择路径短、输入输出明确的工具。
 
+## `Compiler` 主线：高层 API 把多个世界缝在一起
+
+`crates/swc/src/lib.rs` 里的 `Compiler` 结构体本身不大：
+
+```rust
+pub struct Compiler {
+    pub cm: Arc<SourceMap>,
+    comments: SwcComments,
+}
+```
+
+但它的方法会调动很多 crate。比如 `process_js_file()` 只是把文件、handler 和 `Options` 传给 `process_js_with_custom_pass()`，后者再进入 `parse_js_as_input()`、配置归一化、transform 组合、source map 处理和最终打印。越往这里走，越能看到“真实产品入口”需要处理的杂事：
+
+- `.swcrc` / `Options`：`Config` 里有 `env`、`jsc`、`module`、`minify`、`input_source_map`、`source_maps`、`is_module` 等字段。
+- parser syntax：`JscConfig` 下的 `parser` 会落到 `Syntax`，再影响 `EsSyntax`、`TsSyntax`、JSX、TSX 等入口。
+- transform 配置：decorator、React、TypeScript、preset-env、module transform、optimizer、plugin transform 都会按配置被拼进 pass。
+- 输出策略：`PrintArgs`、comments、source map、charset、preamble、minify codegen 等会影响最后生成的文本。
+
+`process_js_with_custom_pass()` 的注释还给了一个特别好的读码锚点：自定义 `custom_before_pass` 会在处理 decorator、应用 `resolver`、剥离 TypeScript 节点之后运行。也就是说，高层 API 不只是“调用 parser 再调用 codegen”，它会保证一些 pass 顺序，让插件作者或内部调用者站在相对稳定的位置上扩展。
+
+读 `Compiler` 时，建议拿一张纸写下三个问题：
+
+| 问题 | 在 `Compiler` 里的对应物 |
+| --- | --- |
+| 输入从哪里来？ | `SourceFile`、`SourceMap`、`load_file()`、comments。 |
+| 配置如何影响行为？ | `Options`、`Config`、`JscConfig`、`ModuleConfig`、`JsMinifyOptions`。 |
+| 输出如何交付？ | `TransformOutput`、`print()`、`Emitter`、source map。 |
+
+只要这三个问题还没答清，就先别追 minifier 的每个规则。高层入口的复杂度来自“产品要覆盖很多场景”，不是来自某一个函数写得神秘。
+
+## 三个基础 transform：resolver、hygiene、fixer
+
+SWC 的 `ARCHITECTURE.md` 特别点名了三个 base transform：`resolver`、`hygiene`、`fixer`。它们在 `crates/swc_ecma_transforms_base/` 下，是读 transform 之前最值得先认识的三块地基。
+
+`resolver` 在 `src/resolver/mod.rs`。它会给作用域里的标识符打上 `SyntaxContext` / `Mark`，让同名变量可以被区分：
+
+```js
+let a = 1;
+{
+    let a = 2;
+    use(a);
+}
+use(a);
+```
+
+人眼看两个 `a` 能靠缩进和作用域判断，编译器则需要把“这个引用指向哪个绑定”编码进 AST。`resolver` 的文档里也提醒：如果一个 pass 要生成类似 `require` 这样的全局引用，应该接受 `unresolved_mark`，避免被用户局部变量误伤。
+
+`hygiene` 在 `src/hygiene/mod.rs`。它把已经带上下文的同名标识符改成不会冲突的输出名。例如架构说明里用 `a#0`、`a#1` 表示两个不同上下文，最后可能打印成 `a` 和 `a1`。这一步关乎“生成代码能不能保持语义”。
+
+`fixer` 在 `src/fixer.rs`。它在打印前修补 AST 的表示，让 codegen 不用每个 pass 都手动处理括号优先级。比如 pass 可以先构造一个语义上需要括号的二元表达式，`fixer` 再负责让输出变成 `(1 + 2) * 3` 这种不会改变含义的代码。
+
+这三个 pass 说明了 transform 不是“随便改树”：
+
+- `resolver` 保证名字引用有身份。
+- `hygiene` 保证输出名字不冲突。
+- `fixer` 保证输出语法不改变表达式含义。
+
+等这三件事明白后，再读兼容性 transform、React transform、TypeScript transform、module transform，心里会稳很多。
+
+## bindings 和 packages：为什么同一套 Rust 会出现在 npm 里
+
+SWC 既是 Rust 库，也是 JavaScript 开发者每天会通过 npm 使用的工具。这个桥梁主要在两个地方：
+
+- `bindings/*`：Rust cdylib、N-API、Wasm、CLI binding 等，把 Rust crate 编译成可被 Node/Wasm 调用的产物。
+- `packages/*`：`@swc/core`、helpers、html、minifier、react-compiler 等 npm package，把 binding 和 JS 侧 API 包成用户熟悉的接口。
+
+以 `bindings/binding_core_node/Cargo.toml` 为例，它的 `crate-type = ["cdylib"]`，依赖 `napi`、`napi-derive` 和 `swc_core`。`swc_core` 又启用了一批 feature，例如 `ecma_ast`、`ecma_minifier`、`ecma_codegen`、`ecma_transforms`、`ecma_visit`、`bundler`、`base_node`、`base_concurrent` 等。这个文件非常适合回答一个现实问题：为什么一个 Rust 编译器项目会有那么多 Node 相关目录？因为用户入口在 JavaScript 生态里，Rust 负责提供高性能核心。
+
+`package.json` 也能看到另一层事实：根工作区的脚本会进入 `packages/core`、`packages/minifier`、`packages/html`、`packages/react-compiler` 做 build/test。这说明 SWC 的开源工程不只维护 parser 正确性，还要维护发布包、平台绑定、JavaScript 测试和生态集成。
+
+新手读到 bindings 时要放慢一点：这里牵涉 Rust ABI、N-API、Wasm、平台产物、npm workspace 和发布脚本。它很重要，但它不是理解 parser 的前置条件。
+
+## 测试和贡献：大项目靠反馈回路活着
+
+`CONTRIBUTING.md` 给出的贡献路径也很值得学。它建议先读 `ARCHITECTURE.md`，找 `E-easy` 和 `E-mentor` 标签的问题，改动非平凡逻辑时加测试，并运行对应 package 的测试。
+
+SWC 的测试规模很大，不建议新手第一天就跑全量。更实用的策略是按你读的区域缩小测试范围：
+
+```bash
+cd third_party/swc
+cargo test -p swc-ast-explorer
+cargo test -p swc_ecma_parser
+cargo test -p swc_ecma_codegen
+cargo test -p swc_ecma_transforms_base
+```
+
+架构说明还提到 parser 和 codegen 会借助 test262 以及 golden fixture。这里的工程味很浓：parser 不是只靠几个手写样例判断对错，codegen 也不是只看“能不能输出字符串”，而是用大量标准用例和引用结果保护行为。
+
+读开源项目时，测试目录常常比 README 更诚实。README 告诉你项目想成为什么，测试告诉你维护者害怕什么会坏。SWC 这种编译器项目尤其如此：语法边界、source map、错误恢复、压缩规则、模块输出、平台 binding，任何一处回归都可能影响大量用户。
+
 ## 读码检查表
 
 读 SWC 这类大仓库时，可以每读一段就问：
@@ -547,6 +720,10 @@ c.process_js_file(fm, handler, &Default::default())
 | 这个工具是否生成 JS？ | 不生成，只 Debug 打印 AST |
 | 生成 JS 应该看哪里？ | `swc_ecma_codegen::Emitter` |
 | 修改 AST 应该看哪里？ | `swc_ecma_visit` / transform pass |
+| 高层编译入口在哪里？ | `swc::Compiler` |
+| Node/Wasm 入口在哪里？ | `bindings/*` 和 `packages/*` |
+| transform 的地基是什么？ | `resolver`、`hygiene`、`fixer` |
+| 生成代码和测试夹具从哪里来？ | `tools/generate-code`、`testing`、test262、golden fixtures |
 
 ## 跟着跑一次
 
@@ -567,12 +744,28 @@ rg -n "with_file_parser|parse_file_as_program|pub fn parse_program" crates/swc_e
 rg -n "pub enum Program|pub struct Module|pub struct Script" crates/swc_ecma_ast/src
 ```
 
+想把全项目地图也跑一遍，可以再做一组“目录级搜索”：
+
+```bash
+cd third_party/swc
+find crates -maxdepth 1 -type d | sort | sed -n '1,80p'
+find bindings -maxdepth 2 -type d | sort
+find packages -maxdepth 2 -type d | sort
+rg -n "pub struct Compiler|process_js_file|process_js_with_custom_pass" crates/swc/src/lib.rs
+rg -n "pub fn resolver|pub fn hygiene|pub fn fixer" crates/swc_ecma_transforms_base/src
+```
+
+这组命令不会让你立刻理解所有实现，但会帮你确认本文的项目分层不是凭空画出来的。
+
 ## 小练习
 
 1. 把输入改成 `let x = 1 + 2 * 3;`，观察 AST 里二元表达式的嵌套顺序。
 2. 把输入改成 `import x from "x"; console.log(x);`，观察结果为什么是 `Program::Module`。
 3. 把输入改成 `function broken(`，观察 `handler` 打印的错误，而不是只看 Rust panic。
 4. 打开 `--spans`，再关掉它，对比 `Span` 对“读树结构”的干扰和帮助。
+5. 用 `rg -n "pub struct Config|pub struct JscConfig" crates/swc/src/config` 找到 `.swcrc` 配置如何进入 `Compiler`。
+6. 打开 `bindings/binding_core_node/Cargo.toml`，找出它启用了哪些 `swc_core` feature，并解释为什么 Node binding 需要这些能力。
+7. 在 `crates/swc_ecma_transforms_base/src` 里分别找到 `resolver`、`hygiene`、`fixer`，用一句话写下它们各自保护什么。
 
 ## 过关标准
 
@@ -583,6 +776,9 @@ rg -n "pub enum Program|pub struct Module|pub struct Script" crates/swc_ecma_ast
 - 能不能说出 `parse_file_as_program()` 和 `parse_file_as_module()` 的区别？
 - 能不能在 `Program::Module`、`Program::Script`、`ModuleItem::Stmt` 之间分清数据形状？
 - 能不能指出 AST Explorer 打印 AST，codegen 才生成 JavaScript？
+- 能不能把 `crates/*`、`bindings/*`、`packages/*`、`tools/*` 分别放到 SWC 项目地图里？
+- 能不能解释 `resolver`、`hygiene`、`fixer` 为什么是 transform 路线的地基？
+- 能不能说明 `swc::Compiler` 为什么是产品入口而不是第一读码入口？
 
 ## 暂时不要读哪里
 
